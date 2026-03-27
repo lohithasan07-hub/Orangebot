@@ -31,7 +31,7 @@ AUDIO_BASE_URL = "https://www.orangecarrier.com/live/calls/sound"
 
 MY_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 
- = "◈ <b><i>AHNAF TAHMID LOHIT</i></b> ◈"
+LOHIT_BRANDING = "◈ <b><i>AHNAF TAHMID LOHIT</i></b> ◈"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 session = requests.Session()
