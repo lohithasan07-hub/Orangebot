@@ -105,14 +105,15 @@ def get_country_smart(did, termination=""):
 
 def build_audio_caption(did, country_name, flag):
     return (
-        f"📢 <b>New Telegram Voice Received</b> 🔔\n"
+        f"📢 <b>New Telegram Voice {flag} Recieved</b> 🔔\n"
         f"━━━━━━━━━━━━━━━━━━\n\n"
-
+        
         f"🌍 <b>Country :</b> {country_name} {flag}\n"
         f"☎️ <b>Number  :</b> <code>{did}</code>\n"
-        f"⏰ <b>Time    :</b> <b><code>{datetime.now().strftime('%Y-%m-%d %I:%M:%S %p')}</code></b>\n"
-        "\n━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"\n\n<a href='https://t.me/Lohit_69'>{LOHIT_BRANDING}</a>"
+        f"⏰ <b>Time    :</b> <code>{datetime.now().strftime('%I:%M:%S %p')}</code>\n"
+        
+        f"\n━━━━━━━━━━━━━━━━━━\n"
+        f"<a href='https://t.me/Lohit_69'>⚡ <b><i>{LOHIT_BRANDING◆}</i></b></a>"
     )
 def extract_calls(calls_raw):
     result = []
