@@ -561,7 +561,7 @@ def send_fail_message(did, duration, country):
         f"❌ <b>FAILED TO FETCH THE CALL</b> ❌\n\n"
         f"☎️ Number: <code>{did}</code>\n"
         f"🌍 Country: {country}\n"
-        f"{}"
+        f"{LOHIT_BRANDING}"
     )
 
     delete_pending(did)
@@ -573,7 +573,7 @@ def send_fail_message(did, duration, country):
 # ================ HUD & COMMANDS ================
 def build_hud_text():
     status = "🟢 SCRAPING" if IS_SCRAPPING else "🔴 STOPPED"
-    return (f"🎮 <b>ORANGE PANEL HUD</b>\n━━━━━━━━━━━━━━━━━━━━\n🛰 Status: <code>{status}</code>\n📩 Total Fetched: <code>{TOTAL_CAPTURED}</code>\n🔑 Session: <code>{SESSION_STATUS}</code>\n━━━━━━━━━━━━━━━━━━━━\n {LOHIT_BRANDING}")
+    return (f"🎮 <b>ORANGE PANEL HUD</b>\n━━━━━━━━━━━━━━━━━━━━\n🛰 Status: <code>{status}</code>\n📩 Total Fetched: <code>{TOTAL_CAPTURED}</code>\n🔑 Session: <code>{SESSION_STATUS}</code>\n━━━━━━━━━━━━━━━━━━━━{LOHIT_BRANDING}")
 
 def build_hud_markup():
     markup = types.InlineKeyboardMarkup(row_width=2)
