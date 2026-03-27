@@ -31,17 +31,7 @@ AUDIO_BASE_URL = "https://www.orangecarrier.com/live/calls/sound"
 
 MY_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 
-LOHIT_BRANDING = "⚡ <b>POWERED BY</b> » <a href='https://t.me/Lohit_69'><i>Lohit_69 ◆</i></a>"
-
-# ===== [EMOJI DATABASE] =====
-TELEGRAM_EMOJI = "5330237710655306682"
-UNIVERSAL_EMOJI = "5798420477705719523"
-PERMANENT_HEADER_EMOJI = "6300794117894965201"
-SERVICE_LABEL_EMOJI = "6298751564592973547"
-OTP_LABEL_EMOJI = "6300834821300029148"
-
-def e(eid):
-    return f'<tg-emoji emoji-id="{eid}"></tg-emoji>'
+LOHIT_BRANDING = "◈ <b><i>AHNAF TAHMID LOHIT</i></b> ◈"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 session = requests.Session()
@@ -53,6 +43,7 @@ SESSION_STATUS = "🔴 Offline"
 HUD_MESSAGE_ID = None
 CMD_LOGIN_REQUESTED = False
 CMD_LOGOUT_REQUESTED = False
+CMD_REFRESH_REQUESTED = False
 
 # ✅ ADDED: Threading Lock for safe concurrency
 lock = threading.Lock()
@@ -93,7 +84,7 @@ def get_country_info(phone):
         country_name = geocoder.description_for_number(parsed_number, "en")
         region_code = phonenumbers.region_code_for_number(parsed_number)
         return (country_name or "International"), get_flag_emoji(region_code)
-    except: return "International", e(UNIVERSAL_EMOJI)
+    except: return "International"
 
 # ✅ ADDED: Country Smart Detect
 def get_country_smart(did, termination=""):
@@ -103,7 +94,7 @@ def get_country_smart(did, termination=""):
             country_name = termination.split()[0]
         return country_name, flag
     except:
-        return "International", e(UNIVERSAL_EMOJI)
+        return "International"
 
 def build_audio_caption(did, country_name, flag):
     bd_time = datetime.now(pytz.timezone("Asia/Dhaka"))
@@ -117,7 +108,7 @@ def build_audio_caption(did, country_name, flag):
         f"⏰ <b>Date & Time :</b> <code>{bd_time.strftime('%Y-%m-%d')} » {bd_time.strftime('%I:%M:%S %p')}</code>\n\n"
         
         f"━━━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"⚡ <b>POWERED BY</b> » <a href='https://t.me/Lohit_69'><i>Lohit_69 ◆</i></a>"
+        f"⚡ <b><i>DEVELOPED BY</i></b> » <a href='https://t.me/Lohit_69'><i>[ Lohit_69 ] 🔥</i></a>"
     )
 def extract_calls(calls_raw):
     result = []
@@ -375,7 +366,8 @@ def handle_account_popup(page):
 # ================ ✅ STABLE BROWSER WORKER ================
 def browser_worker():
     global SESSION_STATUS, BROWSER, CONTEXT, PAGE, PLAYWRIGHT_INST, IS_SCRAPPING
-    global CMD_LOGIN_REQUESTED, CMD_LOGOUT_REQUESTED, LAST_EVENT_TIME, TOTAL_CAPTURED
+    global CMD_LOGIN_REQUESTED, CMD_LOGOUT_REQUESTED, CMD_REFRESH_REQUESTED
+    global LAST_EVENT_TIME, TOTAL_CAPTURED
     
     log_terminal("🚀 Playwright Starting (Single Thread Mode)...")
     PLAYWRIGHT_INST = sync_playwright().start()
@@ -389,21 +381,41 @@ def browser_worker():
                 SESSION_STATUS = "🟡 Logging out..."
                 update_active_hud()
                 smart_log("Logging out of Panel...")
-                if CONTEXT:
-                    CONTEXT.close()
-                SESSION_STATUS = "🔴 Logged Out"
+
+                try:
+                    if PAGE:
+                        PAGE.close()
+                    if CONTEXT:
+                        CONTEXT.close()
+                    if BROWSER:
+                        BROWSER.close()
+                except:
+                    pass
+
+                # 🔥 FULL RESET
+                PAGE = None
+                CONTEXT = None
+                BROWSER = None
+
+                active_calls.clear()
+                processed_uuids.clear()
+                pending_messages.clear()
+
                 IS_SCRAPPING = False
+                CMD_LOGIN_REQUESTED = False
                 CMD_LOGOUT_REQUESTED = False
-                smart_log("Logged Out Successfully.")
+
+                SESSION_STATUS = "🔴 Logged Out"
+                smart_log("✅ Full Reset Done")
                 update_active_hud()
-                
+                            
             if CMD_LOGIN_REQUESTED:
                 SESSION_STATUS = "🟡 Logging in..."
                 update_active_hud()
                 smart_log("🔑 Logging into Orange Carrier...")
 
         # 🔥 LAUNCH BROWSER (STEALTH + RAILWAY SAFE)
-            if BROWSER is None and CMD_LOGIN_REQUESTED:
+            if CMD_LOGIN_REQUESTED:
                 BROWSER = PLAYWRIGHT_INST.chromium.launch(
                     headless=True,
                     args=[
@@ -482,6 +494,29 @@ def browser_worker():
                     PAGE.bring_to_front()
                 except:
                     pass
+
+                # 🔄 SAFE REFRESH (ONLY WORKER THREAD)
+                if CMD_REFRESH_REQUESTED:
+                    try:
+                        log_terminal("🔄 Performing Safe Refresh...")
+
+                        if PAGE:
+                            PAGE.reload(wait_until="domcontentloaded")
+
+                            try:
+                                PAGE.remove_listener("websocket", handle_ws)
+                            except:
+                                pass
+
+                            PAGE.on("websocket", handle_ws)
+
+                            smart_log("✅ Refresh Completed")
+
+                    except Exception as e:
+                        log_terminal(f"Refresh Error → {e}")
+                        CMD_LOGIN_REQUESTED = True
+
+                    CMD_REFRESH_REQUESTED = False
 
                 # 🔥 ADD THIS BLOCK HERE (QUEUE PROCESSOR)
                 while not task_queue.empty():
@@ -567,13 +602,15 @@ def handle_query(call):
     bot.answer_callback_query(call.id)
     if call.data == "start_sc":
         IS_SCRAPPING = True
-        smart_log("🚀 Scraping Started")
-        if SESSION_STATUS not in ["🟢 Valid", "🟡 Logging in..."]: CMD_LOGIN_REQUESTED = True
+        CMD_LOGIN_REQUESTED = True
+        smart_log("🚀 Fresh Start Initiated")
     elif call.data == "stop_sc":
         IS_SCRAPPING = False
         smart_log("⏸ Scraping Stopped")
     elif call.data == "refresh_sess":
-        CMD_LOGIN_REQUESTED = True
+        global CMD_REFRESH_REQUESTED
+        CMD_REFRESH_REQUESTED = True
+        smart_log("🔄 Refresh Requested")
     elif call.data == "logout_panel":
         CMD_LOGOUT_REQUESTED = True
     update_active_hud()
