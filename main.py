@@ -1,5 +1,7 @@
 # Created By @Lohit_69
 import time
+from datetime import datetime
+import pytz
 import os
 import json
 import threading
@@ -104,16 +106,18 @@ def get_country_smart(did, termination=""):
         return "International", e(UNIVERSAL_EMOJI)
 
 def build_audio_caption(did, country_name, flag):
+    bd_time = datetime.now(pytz.timezone("Asia/Dhaka"))
+
     return (
-        f"📢 <b>New Telegram Voice {flag} Recieved</b> 🔔\n"
+        f"📢 <b>New Telegram Voice {flag} Received</b> 🔔\n"
         f"━━━━━━━━━━━━━━━━━━\n\n"
         
-        f"🌍 <b>Country :</b> {country_name} {flag}\n"
-        f"☎️ <b>Number  :</b> <code>{did}</code>\n"
-        f"⏰ <b>Time    :</b> <code>{datetime.now().strftime('%I:%M:%S %p')}</code>\n"
+        f"➤ 🌍 <b>Country :</b> {country_name} {flag}\n"
+        f"➤ ☎️ <b>Number  :</b> <code>{did}</code>\n"
+        f"➤ ⏰ <b>Date & Time :</b> <code>{bd_time.strftime('%Y-%m-%d')} | {bd_time.strftime('%I:%M:%S %p')}</code>\n\n"
         
-        f"\n━━━━━━━━━━━━━━━━━━\n"
-        f"⚡ <b>POWERED BY</b> » <a href='https://t.me/Lohit_69'><i>{LOHIT_BRANDING} ◆</i></a>"
+        f"━━━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"⚡ <b><i>POWERED BY {LOHIT_BRANDING} ◆</i></b>"
     )
 def extract_calls(calls_raw):
     result = []
