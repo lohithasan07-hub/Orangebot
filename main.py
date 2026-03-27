@@ -113,7 +113,7 @@ def build_audio_caption(did, country_name, flag):
         f"⏰ <b>Time    :</b> <code>{datetime.now().strftime('%I:%M:%S %p')}</code>\n"
         
         f"\n━━━━━━━━━━━━━━━━━━\n"
-        f"<a href='https://t.me/Lohit_69'>⚡ <b><i>{LOHIT_BRANDING◆}</i></b></a>"
+        f"<a href='https://t.me/Lohit_69'>⚡<b><i>{LOHIT_BRANDING}</i>◆</b></a>"
     )
 def extract_calls(calls_raw):
     result = []
