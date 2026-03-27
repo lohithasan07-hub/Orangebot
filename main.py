@@ -31,7 +31,7 @@ AUDIO_BASE_URL = "https://www.orangecarrier.com/live/calls/sound"
 
 MY_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 
-LOHIT_BRANDING = "◈ <b><i>AHNAF TAHMID LOHIT</i></b> ◈"
+ = "◈ <b><i>AHNAF TAHMID LOHIT</i></b> ◈"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 session = requests.Session()
@@ -561,7 +561,7 @@ def send_fail_message(did, duration, country):
         f"❌ <b>FAILED TO FETCH THE CALL</b> ❌\n\n"
         f"☎️ Number: <code>{did}</code>\n"
         f"🌍 Country: {country}\n"
-        f"{LOHIT_BRANDING}"
+        f"{}"
     )
 
     delete_pending(did)
@@ -573,7 +573,7 @@ def send_fail_message(did, duration, country):
 # ================ HUD & COMMANDS ================
 def build_hud_text():
     status = "🟢 SCRAPING" if IS_SCRAPPING else "🔴 STOPPED"
-    return (f"🎮 <b>ORANGE PANEL HUD</b>\n━━━━━━━━━━━━━━━━━━━━\n🛰 Status: <code>{status}</code>\n📩 Total Fetched: <code>{TOTAL_CAPTURED}</code>\n🔑 Session: <code>{SESSION_STATUS}</code>\n━━━━━━━━━━━━━━━━━━━━{LOHIT_BRANDING}")
+    return (f"🎮 <b>ORANGE PANEL HUD</b>\n━━━━━━━━━━━━━━━━━━━━\n🛰 Status: <code>{status}</code>\n📩 Total Fetched: <code>{TOTAL_CAPTURED}</code>\n🔑 Session: <code>{SESSION_STATUS}</code>\n━━━━━━━━━━━━━━━━━━━━\n {LOHIT_BRANDING}")
 
 def build_hud_markup():
     markup = types.InlineKeyboardMarkup(row_width=2)
