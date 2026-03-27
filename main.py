@@ -104,23 +104,16 @@ def get_country_smart(did, termination=""):
         return "International", e(UNIVERSAL_EMOJI)
 
 def build_audio_caption(did, country_name, flag):
-    if flag == "🌍":
-        flag = e(UNIVERSAL_EMOJI)
+    return (
+        f"📢 <b>New Telegram Voice Received</b> 🔔\n"
+        f"━━━━━━━━━━━━━━━━━━\n\n"
 
-    # Ensure LOHIT_BRANDING is defined somewhere as "POWERED BY LOHIT"
-        
-        return (
-            f"<tg-emoji emoji-id='{PERMANENT_HEADER_EMOJI}'>⭐</tg-emoji> <b>New Telegram Voice Received</b> <tg-emoji emoji-id='{OTP_LABEL_EMOJI}'>🔔</tg-emoji>\n"
-            f"━━━━━━━━━━━━━━━━━━\n\n"
-
-            f"<tg-emoji emoji-id='{SERVICE_LABEL_EMOJI}'>🔹</tg-emoji> <b>Country :</b> {country_name} {flag} <tg-emoji emoji-id='{TELEGRAM_EMOJI}'>📱</tg-emoji>\n"
-            f"☎️ <b>Number  :</b> <code>{did}</code>\n"
-            f"⏰ <b>Time    :</b> <b><code>{datetime.now().strftime('%Y-%m-%d  %I:%M:%S %p')}</code></b>\n"
-
-            # Clickable link to your username
-            f"\n\n<a href='https://t.me/Lohit_69'>{LOHIT_BRANDING}</a>"
-        )
-
+        f"🌍 <b>Country :</b> {country_name} {flag}\n"
+        f"☎️ <b>Number  :</b> <code>{did}</code>\n"
+        f"⏰ <b>Time    :</b> <b><code>{datetime.now().strftime('%Y-%m-%d %I:%M:%S %p')}</code></b>\n"
+        "\n━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"\n\n<a href='https://t.me/Lohit_69'>{LOHIT_BRANDING}</a>"
+    )
 def extract_calls(calls_raw):
     result = []
     for item in calls_raw:
@@ -137,8 +130,8 @@ def send_pending_call(did):
     delete_pending(did)
 
     text = (
-        f"{e(SERVICE_LABEL_EMOJI)} <b>New Call Received</b>\n\n"
-        f"☎️ Number: <code>{did}</code>\n"
+        "📡 <b>New Incoming Call Detected</b>\n\n"
+        f"📞 Number : <code>{did}</code>\n"
         f"⏳ Please wait for the call to end..."
     )
 
