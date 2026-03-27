@@ -31,7 +31,7 @@ AUDIO_BASE_URL = "https://www.orangecarrier.com/live/calls/sound"
 
 MY_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 
-LOHIT_BRANDING = "\n\nPᴏᴡᴇʀᴇᴅ ʙʏ @Lohit_69"
+LOHIT_BRANDING = "⚡ <b>POWERED BY</b> » <a href='https://t.me/Lohit_69'><i>Lohit_69 ◆</i></a>"
 
 # ===== [EMOJI DATABASE] =====
 TELEGRAM_EMOJI = "5330237710655306682"
@@ -112,12 +112,12 @@ def build_audio_caption(did, country_name, flag):
         f"📢 <b>New Telegram Voice {flag} Received</b> 🔔\n"
         f"━━━━━━━━━━━━━━━━━━\n\n"
         
-        f"➤ 🌍 <b>Country :</b> {country_name} {flag}\n"
-        f"➤ ☎️ <b>Number  :</b> <code>{did}</code>\n"
-        f"➤ ⏰ <b>Date & Time :</b> <code>{bd_time.strftime('%Y-%m-%d')} | {bd_time.strftime('%I:%M:%S %p')}</code>\n\n"
+        f"🌍 <b>Country :</b> {country_name} {flag}\n"
+        f"☎️ <b>Number  :</b> <code>{did}</code>\n"
+        f"⏰ <b>Date & Time :</b> <code>{bd_time.strftime('%Y-%m-%d')} » {bd_time.strftime('%I:%M:%S %p')}</code>\n\n"
         
         f"━━━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"⚡ <b><i>POWERED BY {LOHIT_BRANDING} ◆</i></b>"
+        f"⚡ <b>POWERED BY</b> » <a href='https://t.me/Lohit_69'><i>Lohit_69 ◆</i></a>"
     )
 def extract_calls(calls_raw):
     result = []
